@@ -229,9 +229,7 @@ public class DBProject {
       System.out.println(
          "\n\n*******************************************************\n" +
          "              User Interface      	               \n" +
-         "*******************************************************\n"
-	 "Options:\n 1)Add Customer\n 2)Add Room\n 3)Add Maintenance Company\n 4)Add Repair\n"
-	 "5)Book Room \n 6)Assign HouseCleaning To Room\n 7)Repair Request\n 8)Number Of Available Rooms\n 9)Number of Booked Rooms\n 10)List Hotel Room Bookings For A Week\n 11)Top K Highest Room Price For A Date Range");
+         "*******************************************************\n");
    }//end Greeting
 
    /*
