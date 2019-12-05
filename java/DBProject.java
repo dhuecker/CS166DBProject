@@ -254,7 +254,28 @@ public class DBProject {
 
    
    public static void addCustomer(DBProject esql){
-	  String fName;
+	
+ int customerID;
+String checkID;
+
+	do {
+		System.out.println("Input your Customer ID Number: ");
+		try {
+			checkID = in.readLine();
+			customerID = Integer.parseInt(checkID);
+			if (checkID.length() <= 0) {
+				throw new RuntimeException("Custmor ID can't be empty!");
+}
+break;
+		}catch (Exception e){
+			System.out.println("Invaild input!");
+			continue;
+		}
+	}while(true);
+
+
+
+  String fName;
 	do {
 		System.out.println("Input your First Name: ");
 		try {
@@ -337,16 +358,16 @@ DateTimeFormatter dformat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
 	do {
 		System.out.println("Input your Gender: Male, Female, Other ");
-		try {
+		//try {
 			GenderType = in.readLine();
-			if (GenderType != "Male" || "Femal" || "Other") {
-				throw new RuntimeException("Invaild gender entered");
-}
-break;
-		}catch (Exception e){
-			System.out.println(e);
-			continue;
-		}
+			//if (GenderType != "Male" || "Femal" || "Other") {
+				//throw new RuntimeException("Invaild gender entered");
+//}
+//break;
+//		}catch (Exception e){
+//			System.out.println(e);
+//			continue;
+//		}
 	}while(true);
 
 	try {
@@ -362,13 +383,93 @@ break;
    public static void addRoom(DBProject esql){
 	  // Given room details add the room in the DB
       // Your code goes here.
-      // ...
+
       // ...
    }//end addRoom
 
    public static void addMaintenanceCompany(DBProject esql){
       // Given maintenance Company details add the maintenance company in the DB
       // ...
+int cmpID;
+String checkID;
+
+	do {
+		System.out.println("Input your Company ID Number: ");
+		try {
+			checkID = in.readLine();
+			cmpID = Integer.parseInt(checkID);
+			if (checkID.length() <= 0) {
+				throw new RuntimeException("Company ID can't be empty!");
+}
+break;
+		}catch (Exception e){
+			System.out.println("Invaild input!");
+			continue;
+		}
+	}while(true);
+
+
+
+  String name;
+	do {
+		System.out.println("Input your Company Name: ");
+		try {
+			name = in.readLine();
+			if (name.length() <= 0 || name.length() > 30) {
+				throw new RuntimeException("Company Names can't be null or longer than 30 characters");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+
+ String check;
+boolean isCertified;
+
+	do {
+		System.out.println("Is your Company Certified?: ");
+		try {
+			check = in.readLine();
+			isCertified = Boolean.parseBoolean(check);
+			if (check.length() <= 0) {
+				throw new RuntimeException("Can't be Null/Empty");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+ String Address;
+
+	do {
+		System.out.println("Input your Address: ");
+		try {
+			Address = in.readLine();
+			if (Address.length() <= 0) {
+				throw new RuntimeException("Your address will be placed as None");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+
+
+	try {
+		String query = "INSERT INTO MaintenanceCompany (cmpID, name, address, isCertified) VALUES (" + cmpID + ", \'" + name + ",  \'" + Address + ", \'" + isCertified + "\');" ;
+
+		esql.executeUpdate(query);
+	}catch (Exception e) {  
+				System.err.println (e.getMessage());
+}
+
       // ...
    }//end addMaintenanceCompany
 
