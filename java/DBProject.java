@@ -254,11 +254,110 @@ public class DBProject {
 
    
    public static void addCustomer(DBProject esql){
-	  // Given customer details add the customer in the DB 
-      // Your code goes here.
-      // ...
-      // ...
-   }//end addCustomer
+	  String fName;
+	do {
+		System.out.println("Input your First Name: ");
+		try {
+			fName = in.readLine();
+			if (fName.length() <= 0 || fName.length() > 30) {
+				throw new RuntimeException("First Names can't be null or longer than 30 characters");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+
+ String lName;
+
+	do {
+		System.out.println("Input your Last Name: ");
+		try {
+			lName = in.readLine();
+			if (lName.length() <= 0 || lName.length() > 30) {
+				throw new RuntimeException("Last Names can't be null or longer than 30 characters");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+ String Address;
+
+	do {
+		System.out.println("Input your Address: ");
+		try {
+			Address = in.readLine();
+			if (Address.length() <= 0) {
+				throw new RuntimeException("Your address will be placed as None");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+Date DOB;
+String temp;
+DateTimeFormatter dformat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+	do {
+		System.out.println("Input your date of birth: ");
+		try {
+			temp = in.readLine();
+			DOB = LocalDate.parse(temp, dformat);
+			break;
+
+		}catch (Exception e){
+			System.out.println("Invaild input!");
+			continue;
+		}
+	}while(true);
+
+ int phNo;
+
+	do {
+		System.out.println("Input your phone number: with no / () ");
+		try {
+			phNo = Integer.parseInt(in.readLine());
+			
+			break;
+		}catch (Exception e){
+			System.out.println("Invaild input!");
+			continue;
+		}
+	}while(true);
+
+ String GenderType;
+
+	do {
+		System.out.println("Input your Gender: Male, Female, Other ");
+		try {
+			GenderType = in.readLine();
+			if (GenderType != "Male" || "Femal" || "Other") {
+				throw new RuntimeException("Invaild gender entered");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
+	}while(true);
+
+	try {
+		String query = "INSERT INTO CUSTOMER (fName, lName, Address, phNo, DOB, GenderType) VALUES (" + fName + ", \'" + lName + ",  \'" + Address + ", \'" + phNo + ", \'" + DOB + ",  \'" + GenderType + "\');" ;
+
+		esql.executeUpdate(query);
+	}catch (Exception e) {  
+				System.err.println (e.getMessage());
+}
+
+   };//end addCustomer
 
    public static void addRoom(DBProject esql){
 	  // Given room details add the room in the DB
