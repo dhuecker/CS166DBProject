@@ -472,6 +472,7 @@ public class DBProject {
       int staffID = 0;
       int hotelID = 0;
       int roomNo = 0;
+      int asgID = 0;
       String temp;
       
       do {
@@ -521,9 +522,17 @@ public class DBProject {
             continue;
          }
       }while(true);
-      //FIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXME
-      //////////////////////////////////////////////////////// This does not work for an empty table. Just count number of rows instead. //////////////////////////////////////////////
-      String query = "INSERT INTO Assigned (asgID, staffID, hotelID, roomNo) Values ((SELECT MAX(asgID) + 1 FROM Assigned), "
+
+      // Figure out what ID is next in the sequence by counting rows. Assuming data is sequential and continuous.
+      temp = "SELECT * FROM Assigned";
+      try {
+         asgID = esql.executeQuery(temp);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+      
+      String query = "INSERT INTO Assigned (asgID, staffID, hotelID, roomNo) Values (" + asgID + ", "
          + staffID + ", " + hotelID + ", " + roomNo + ");";
 
       try {
@@ -572,7 +581,7 @@ public class DBProject {
          System.err.println(e.getMessage());
       }
 
-      System.out.println("THere are " + roomsAvailCount + " available rooms in the hotel with ID " + hotelID);
+      System.out.println("There are " + roomsAvailCount + " available rooms in the hotel with ID " + hotelID);
    }//end numberOfAvailableRooms
    
    public static void numberOfBookedRooms(DBProject esql){
