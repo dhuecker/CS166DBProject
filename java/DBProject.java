@@ -378,7 +378,7 @@ break;
 	}while(true);
 
 	try {
-		String query = "INSERT INTO CUSTOMER (fName, lName, Address, phNo, DOB, GenderType) VALUES (" + fName + ", \'" + lName + "\',\'"  + Address + "\',\'" + phNo + "\',\'"  + DOB + "\',\'"  + GenderType + "\');" ;
+		String query = "INSERT INTO CUSTOMER (customerID, fName, lName, Address, phNo, DOB, gender) VALUES (" + customerID + ", \'" + fName + "\',\'" + lName + "\',\'"  + Address + "\',\'" + phNo + "\',\'"  + DOB + "\',\'"  + GenderType + "\');" ;
 
 		esql.executeUpdate(query);
 	}catch (Exception e) {  
@@ -491,10 +491,19 @@ break;
 	  // Given hotelID, roomNo and customer Name create a booking in the DB 
       // Your code goes here.
       // ...
-        int bID;
+        int bID = 0;
         String checkbID;
 
-        do {
+	checkbID = "SELECT bID FROM Booking";
+	try { 
+		bID = esql.executeQuery(checkbID);
+		bID = bID + 1;
+	}
+	catch (Exception e) {
+		System.err.println(e.getMessage());
+}
+
+        /*do {
             System.out.println("Input your Booking ID Number: ");
             try {
                 checkbID = in.readLine();
@@ -508,12 +517,12 @@ break;
                 continue;
             }
         }while(true);
-
+*/
         int customer;
         String checkC;
 
         do {
-            System.out.println("Input your Company ID Number: ");
+            System.out.println("Input your Customer ID Number: ");
             try {
                 checkC = in.readLine();
                 customer = Integer.parseInt(checkC);
@@ -586,7 +595,7 @@ break;
         String checkN;
 
         do {
-            System.out.println("Input the number of people: $ ");
+            System.out.println("Input the number of people: ");
             try {
                 checkN = in.readLine();
                 noOfPeople = Integer.parseInt(checkN);
@@ -621,7 +630,7 @@ break;
 
 
         try {
-            String query = "INSERT INTO Booking (bId, customer, hotelID, roomNo, bookingDate, noOfPeople, price) VALUES (" + bID + ", \'" + customer + "\',\'" + hotelID + "\',\'" + roomNo + "\',\'" + bookingDate + "\',\'" + noOfPeople + "\',\'" + price + "\');" ;
+            String query = "INSERT INTO Booking (bID, customer, hotelID, roomNo, bookingDate, noOfPeople, price) VALUES (" + bID + ", \'" + customer + "\',\'" + hotelID + "\',\'" + roomNo + "\',\'" + bookingDate + "\',\'" + noOfPeople + "\',\'" + price + "\');" ;
 
             esql.executeUpdate(query);
         }catch (Exception e) {
