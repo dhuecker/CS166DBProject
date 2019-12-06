@@ -650,6 +650,102 @@ break;
 	  // Given a hotelID, Staff SSN, roomNo, repairID , date create a repair request in the DB
       // Your code goes here.
       // ...
+        int reqID = 0;
+        String checkreqID;
+
+	checkreqID = "SELECT reqID FROM Request";
+	try { 
+		reqID = esql.executeQuery(checkreqID);
+		reqID = reqID + 1;
+	}
+	catch (Exception e) {
+		System.err.println(e.getMessage());
+}
+
+
+        int managerID;
+        String checkm;
+
+        do {
+            System.out.println("Input your Manager ID Number: ");
+            try {
+                checkm = in.readLine();
+                managerID = Integer.parseInt(checkm);
+                if (checkm.length() <= 0) {
+                    throw new RuntimeException("Manager ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        int repairID;
+        String checkR;
+
+        do {
+            System.out.println("Input your Repair ID Number: ");
+            try {
+                checkR = in.readLine();
+                repairID = Integer.parseInt(checkR);
+                if (checkR.length() <= 0) {
+                    throw new RuntimeException("Repair ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+
+
+        Date requestDate;
+        String tempreq;
+//SimpleDateFormatter dformat = SimpleDateFormatter.ofPattern("dd-MM-yyyy");
+
+        do {
+            System.out.println("Input your Request date: ");
+            try {
+                tempreq = in.readLine();
+                requestDate = new SimpleDateFormat("MM/DD/YY").parse(tempreq);
+                break;
+
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        
+        String description;
+
+        do {
+            System.out.println("Input Repair Description: ");
+            try {
+                description = in.readLine();
+                
+                if (description.length() <= 0) {
+                    throw new RuntimeException("Description can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+
+
+        try {
+            String query = "INSERT INTO Request (reqID, managerID, repairID, requestDate, description) VALUES (" + reqID + ", \'" + managerID + "\',\'" + repairID + "\',\'" + requestDate + "\',\'" + description + "\');" ;
+
+            esql.executeUpdate(query);
+        }catch (Exception e) {
+            System.err.println (e.getMessage());
+        }
       // ...
    }//end repairRequest
    
