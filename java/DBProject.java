@@ -521,7 +521,8 @@ public class DBProject {
             continue;
          }
       }while(true);
-
+      //FIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXMEFIXME
+      //////////////////////////////////////////////////////// This does not work for an empty table. Just count number of rows instead. //////////////////////////////////////////////
       String query = "INSERT INTO Assigned (asgID, staffID, hotelID, roomNo) Values ((SELECT MAX(asgID) + 1 FROM Assigned), "
          + staffID + ", " + hotelID + ", " + roomNo + ");";
 
@@ -540,13 +541,38 @@ public class DBProject {
       // ...
    }//end repairRequest
    
-   public static void numberOfAvailableRooms(DBProject esql){
+   public static void numberOfAvailableRooms(DBProject esql){ //Assuming date doesn't matter.
      // Given a hotelID, get the count of rooms available 
       String temp;
       int hotelID = 0;
-      int roomCount = 0;
+      int roomsAvailCount = 0;
 
-      String query = "SELECT";
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT avail.* FROM ((SELECT r.roomNo, r.hotelID FROM Room r) EXCEPT (SELECT b.roomNo, b.hotelID FROM Booking b)) as avail WHERE avail.hotelID="
+         + hotelID + ";";
+      try{
+         roomsAvailCount = esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+
+      System.out.println("THere are " + roomsAvailCount + " available rooms in the hotel with ID " + hotelID);
    }//end numberOfAvailableRooms
    
    public static void numberOfBookedRooms(DBProject esql){
