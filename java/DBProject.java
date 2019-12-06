@@ -491,6 +491,142 @@ break;
 	  // Given hotelID, roomNo and customer Name create a booking in the DB 
       // Your code goes here.
       // ...
+        int bID;
+        String checkbID;
+
+        do {
+            System.out.println("Input your Booking ID Number: ");
+            try {
+                checkbID = in.readLine();
+                bID = Integer.parseInt(checkbID);
+                if (checkbID.length() <= 0) {
+                    throw new RuntimeException("Booking ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        int customer;
+        String checkC;
+
+        do {
+            System.out.println("Input your Company ID Number: ");
+            try {
+                checkC = in.readLine();
+                customer = Integer.parseInt(checkC);
+                if (checkC.length() <= 0) {
+                    throw new RuntimeException("Customer ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        int hotelID;
+        String checkhID;
+
+        do {
+            System.out.println("Input your Hotel ID Number: ");
+            try {
+                checkhID = in.readLine();
+                hotelID = Integer.parseInt(checkhID);
+                if (checkhID.length() <= 0) {
+                    throw new RuntimeException("Hotel ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        int roomNo;
+        String checkR;
+
+        do {
+            System.out.println("Input your Room Number: ");
+            try {
+                checkR = in.readLine();
+                roomNo = Integer.parseInt(checkR);
+                if (checkR.length() <= 0) {
+                    throw new RuntimeException("Room Number can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+
+        Date bookingDate;
+        String tempb;
+//SimpleDateFormatter dformat = SimpleDateFormatter.ofPattern("dd-MM-yyyy");
+
+        do {
+            System.out.println("Input your booking date: ");
+            try {
+                tempb = in.readLine();
+                bookingDate = new SimpleDateFormat("MM/DD/YY").parse(tempb);
+                break;
+
+            }catch (Exception e){
+                System.out.println("Invalid input!");
+                continue;
+            }
+        }while(true);
+
+        int noOfPeople;
+        String checkN;
+
+        do {
+            System.out.println("Input the number of people: $ ");
+            try {
+                checkN = in.readLine();
+                noOfPeople = Integer.parseInt(checkN);
+                if (checkN.length() <= 0) {
+                    throw new RuntimeException("Number can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+        int price;
+        String checkP;
+
+        do {
+            System.out.println("Input your Price: $ ");
+            try {
+                checkP = in.readLine();
+                price = Integer.parseInt(checkP);
+                if (checkP.length() <= 0) {
+                    throw new RuntimeException("Price can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+        try {
+            String query = "INSERT INTO Booking (bId, customer, hotelID, roomNo, bookingDate, noOfPeople, price) VALUES (" + bID + ", \'" + customer + "\',\'" + hotelID + "\',\'" + roomNo + "\',\'" + bookingDate + "\',\'" + noOfPeople + "\',\'" + price + "\');" ;
+
+            esql.executeUpdate(query);
+        }catch (Exception e) {
+            System.err.println (e.getMessage());
+        }
       // ...
    }//end bookRoom
 
