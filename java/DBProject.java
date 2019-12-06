@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 // Student imports:
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -263,7 +264,7 @@ public class DBProject {
       int hotelID;
       int roomNo;
       String roomType;
-
+      // Hotel ID
       do {
          System.out.println("Input the hotel ID:");
          try {
@@ -279,8 +280,7 @@ public class DBProject {
             continue;
          }
       }while(true);
-      tempID = "";
-
+      // Room number
       do {
          System.out.println("Input the room number:");
          try {
@@ -296,7 +296,7 @@ public class DBProject {
             continue;
          }
       }while(true);
-
+      // Room type
       do {
          System.out.println("Input the room type:");
          try {
@@ -330,10 +330,135 @@ public class DBProject {
    }//end addMaintenanceCompany
 
    public static void addRepair(DBProject esql){
-	  // Given repair details add repair in the DB
-      // Your code goes here.
-      // ...
-      // ...
+      String temp;
+      int rID;
+      int hotelID = 0;
+      int roomNo = 0;
+      int mCompany = 0;
+      Date repairDate;
+      String description;
+      String repairType;
+      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");  
+
+      do {
+         System.out.println("Input the repair ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair ID cannot be empty.");
+            }
+            rID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the room number.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Room number cannot be empty.");
+            }
+            roomNo = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the maintenance company's ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Maintenance company ID cannot be empty.");
+            }
+            mCompany = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the repair date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            repairDate = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the description. (Optional)");
+         try {
+            temp = in.readLine();
+            description = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.print("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Specify the repair type.");
+         try{
+            temp = in.readLine();
+            if (temp.length() > 10) {
+               throw new RuntimeException("Repair type must be less than 10 characters.");
+            }
+            repairType = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "INSERT INTO Repair (rID, hotelID, roomNo, mCompany, repairDate, description, repairType) Values (" 
+         + rID + ", " + hotelID + ", " + roomNo + ", " + mCompany + ", \'" + formatter1.format(repairDate) + "\', \'" 
+         + description + "\', \'" + repairType + "\');";
+
+      try {
+         esql.executeUpdate(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
    }//end addRepair
 
    public static void bookRoom(DBProject esql){
@@ -344,10 +469,27 @@ public class DBProject {
    }//end bookRoom
 
    public static void assignHouseCleaningToRoom(DBProject esql){
-	  // Given Staff SSN, HotelID, roomNo Assign the staff to the room 
-      // Your code goes here.
-      // ...
-      // ...
+      int staffID = 0;
+      int hotelID = 0;
+      int roomNo = 0;
+      String temp;
+      
+      do {
+         System.out.println("Input the .");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair ID cannot be empty.");
+            }
+            rID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
    }//end assignHouseCleaningToRoom
    
    public static void repairRequest(DBProject esql){
