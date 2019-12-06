@@ -22,6 +22,8 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -325,13 +327,13 @@ break;
 
 Date DOB;
 String temp;
-DateTimeFormatter dformat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//SimpleDateFormatter dformat = SimpleDateFormatter.ofPattern("dd-MM-yyyy");
 
 	do {
 		System.out.println("Input your date of birth: ");
 		try {
 			temp = in.readLine();
-			DOB = LocalDate.parse(temp, dformat);
+			 DOB = new SimpleDateFormat("MM/DD/YY").parse(temp);
 			break;
 
 		}catch (Exception e){
@@ -340,38 +342,43 @@ DateTimeFormatter dformat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		}
 	}while(true);
 
- int phNo;
-
-	do {
-		System.out.println("Input your phone number: with no / () ");
-		try {
-			phNo = Integer.parseInt(in.readLine());
-			
-			break;
-		}catch (Exception e){
-			System.out.println("Invaild input!");
-			continue;
-		}
-	}while(true);
+ int phNo = 800;
+String tempNo;
+	//do {
+	//	System.out.println("Input your phone number: with no / () ");
+	//	try {
+	//		tempNo = in.readLine();
+	//		
+	//		phNo = Integer.parseInt(tempNo);
+	//		
+	//		if (tempNo.length() <= 0) {
+	//			throw new RuntimeException("Phone Number can't be empty!");
+//}
+//			break;
+//		}catch (Exception e){
+//			System.out.println("Invaild input!");
+//			continue;
+//		}
+//	}while(true);
 
  String GenderType;
 
 	do {
 		System.out.println("Input your Gender: Male, Female, Other ");
-		//try {
+		try {
 			GenderType = in.readLine();
-			//if (GenderType != "Male" || "Femal" || "Other") {
-				//throw new RuntimeException("Invaild gender entered");
-//}
-//break;
-//		}catch (Exception e){
-//			System.out.println(e);
-//			continue;
-//		}
+			if (GenderType.length() == 0) {
+				throw new RuntimeException("Invaild");
+}
+break;
+		}catch (Exception e){
+			System.out.println(e);
+			continue;
+		}
 	}while(true);
 
 	try {
-		String query = "INSERT INTO CUSTOMER (fName, lName, Address, phNo, DOB, GenderType) VALUES (" + fName + ", \'" + lName + ",  \'" + Address + ", \'" + phNo + ", \'" + DOB + ",  \'" + GenderType + "\');" ;
+		String query = "INSERT INTO CUSTOMER (fName, lName, Address, phNo, DOB, GenderType) VALUES (" + fName + ", \'" + lName + "\',\'"  + Address + "\',\'" + phNo + "\',\'"  + DOB + "\',\'"  + GenderType + "\');" ;
 
 		esql.executeUpdate(query);
 	}catch (Exception e) {  
@@ -463,7 +470,7 @@ break;
 
 
 	try {
-		String query = "INSERT INTO MaintenanceCompany (cmpID, name, address, isCertified) VALUES (" + cmpID + ", \'" + name + ",  \'" + Address + ", \'" + isCertified + "\');" ;
+		String query = "INSERT INTO MaintenanceCompany (cmpID, name, address, isCertified) VALUES (" + cmpID + ", \'" + name + "\',\'" + Address + "\',\'" + isCertified + "\');" ;
 
 		esql.executeUpdate(query);
 	}catch (Exception e) {  
