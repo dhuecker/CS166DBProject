@@ -475,13 +475,13 @@ public class DBProject {
       String temp;
       
       do {
-         System.out.println("Input the .");
+         System.out.println("Input the Staff ID.");
          try {
             temp = in.readLine();
             if (temp.length() <= 0) {
-               throw new RuntimeException("Repair ID cannot be empty.");
+               throw new RuntimeException("Staff ID cannot be empty.");
             }
-            rID = Integer.parseInt(temp);
+            staffID = Integer.parseInt(temp);
             break;
          }
          catch (Exception e) {
@@ -490,6 +490,47 @@ public class DBProject {
          }
       }while(true);
 
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the room number.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Room number cannot be empty.");
+            }
+            roomNo = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "INSERT INTO Assigned (asgID, staffID, hotelID, roomNo) Values ((SELECT MAX(asgID) + 1 FROM Assigned), "
+         + staffID + ", " + hotelID + ", " + roomNo + ");";
+
+      try {
+         esql.executeUpdate(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
    }//end assignHouseCleaningToRoom
    
    public static void repairRequest(DBProject esql){
@@ -500,17 +541,45 @@ public class DBProject {
    }//end repairRequest
    
    public static void numberOfAvailableRooms(DBProject esql){
-	  // Given a hotelID, get the count of rooms available 
-      // Your code goes here.
-      // ...
-      // ...
+     // Given a hotelID, get the count of rooms available 
+      String temp;
+      int hotelID = 0;
+      int roomCount = 0;
+
+      String query = "SELECT";
    }//end numberOfAvailableRooms
    
    public static void numberOfBookedRooms(DBProject esql){
-	  // Given a hotelID, get the count of rooms booked
-      // Your code goes here.
-      // ...
-      // ...
+     // Given a hotelID, get the count of rooms booked
+      String temp;
+      int hotelID = 0;
+      int roomsBookedCount = 0;
+
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT * FROM Booking WHERE hotelID=" + hotelID + ";";
+      try {
+         roomsBookedCount = esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+
+      System.out.println("There are " + roomsBookedCount + " booked rooms in the hotel with ID " + hotelID);
    }//end numberOfBookedRooms
    
    public static void listHotelRoomBookingsForAWeek(DBProject esql){
