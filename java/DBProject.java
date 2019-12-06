@@ -619,9 +619,55 @@ public class DBProject {
    
    public static void listHotelRoomBookingsForAWeek(DBProject esql){
 	  // Given a hotelID, date - list all the rooms available for a week(including the input date) 
-      // Your code goes here.
-      // ...
-      // ...
+      String temp;
+      int hotelID = 0;
+      Date bookingDate;
+      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");
+      SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");    
+
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            bookingDate = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT avail.* FROM ((SELECT r.roomNo, r.hotelID FROM Room r) EXCEPT (SELECT b.roomNo, b.hotelID FROM Booking b WHERE b.bookingdate >= \'" 
+         + formatter2.format(bookingDate) + "\'::Date AND b.bookingDate <= \'" + formatter2.format(bookingDate) + "\'::Date + \'1 week\'::Interval))"
+         + " as avail WHERE avail.hotelID=" + hotelID + ";";
+
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+
    }//end listHotelRoomBookingsForAWeek
    
    public static void topKHighestRoomPriceForADateRange(DBProject esql){
