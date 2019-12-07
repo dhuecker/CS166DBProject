@@ -923,27 +923,78 @@ public class DBProject {
       String query = "SELECT sum(b.price) FROM Booking b INNER JOIN Customer c ON c.customerID = b.customer WHERE b.hotelID = " + hotelID  
       + " AND c.fname = \'" + fName + "\' AND c.lname = \'" + lName +  "\' AND b.bookingDate >= \'" + formatter2.format(start) 
       + "\' AND b.bookingDate <= \'" + formatter2.format(end) + "\';";
+      
       try {
          esql.executeQuery(query);
       }
       catch (Exception e) {
          System.err.println(e.getMessage());
       }
-      
    }//end totalCostForCustomer
    
    public static void listRepairsMade(DBProject esql){
 	  // Given a Maintenance company name list all the repairs along with repairType, hotelID and roomNo
-      // Your code goes here.
-      // ...
-      // ...
+     String temp; 
+     String mcName;
+      
+     do {
+         System.out.println("Input the maintenance company's name.");
+         try{
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Company name cannot be blank");
+            }
+            if (temp.length() > 30) {
+               throw new RuntimeException("Company name must be less than 10 characters.");
+            }
+            mcName = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT R.rID, R.hotelID, R.repairType, R.repairDate, M.name FROM Repair R, MaintenanceCompany M WHERE M.name = \'"
+         + mcName + "\' AND M.cmpID = R.mCompany;";
+
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
    }//end listRepairsMade
    
    public static void topKMaintenanceCompany(DBProject esql){
 	  // List Top K Maintenance Company Names based on total repair count (descending order)
-      // Your code goes here.
-      // ...
-      // ...
+      String checkK;
+      int k;
+      do {
+         System.out.println("Input the value of K: ");
+         try {
+             checkK = in.readLine();
+             k = Integer.parseInt(checkK);
+             if (checkK.length() <= 0) {
+                 throw new RuntimeException("K can't be empty!");
+             }
+             break;
+         }catch (Exception e){
+             System.out.println("Invaild input!");
+             continue;
+         }
+     }while(true);
+
+     String query = "SELECT M.name, rep.count FROM maintenanceCompany M INNER JOIN (SELECT COUNT(*), mCompany FROM Repair GROUP BY mCompany) AS rep "
+      + "ON rep.mCompany=M.cmpID ORDER BY count DESC LIMIT " + k + ";";
+   
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
    }//end topKMaintenanceCompany
    
    public static void numberOfRepairsForEachRoomPerYear(DBProject esql){
