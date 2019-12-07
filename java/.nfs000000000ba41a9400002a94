@@ -256,118 +256,7 @@ public class DBProject {
    }//end readChoice
 
    
-   public static void addCustomer(DBProject esql){
-      int customerID = 0;
-      String checkID;
-      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");
-      SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd"); 
-
-      checkID = "SELECT customerID FROM Customer";
-      try { 
-         customerID = esql.executeQuery(checkID);
-      }
-      catch (Exception e) {
-         System.err.println(e.getMessage());
-      }
-
-      String fName;
-      do {
-         System.out.println("Input your First Name: ");
-         try {
-            fName = in.readLine();
-            if (fName.length() <= 0 || fName.length() > 30) {
-               throw new RuntimeException("First Names can't be null or longer than 30 characters");
-            }
-         break;
-         }
-         catch (Exception e){
-			   System.out.println(e);
-			   continue;
-		   }
-	   }while(true);
-
-
-      String lName;
-      do {
-         System.out.println("Input your Last Name: ");
-         try {
-            lName = in.readLine();
-            if (lName.length() <= 0 || lName.length() > 30) {
-               throw new RuntimeException("Last Names can't be null or longer than 30 characters");
-            }
-            break;
-         }
-         catch (Exception e){
-			System.out.println(e);
-			continue;
-		   }
-	   }while(true);
-
-      String Address;
-      do {
-		   System.out.println("Input your Address: ");
-		   try {
-			   Address = in.readLine();
-            break;
-         }
-         catch (Exception e){
-			   System.out.println(e);
-			   continue;
-		   }
-	}while(true);
-
-   Date DOB;
-   String temp;
-
-	do {
-		System.out.println("Input your date of birth (MM/dd/YY): ");
-		try {
-			temp = in.readLine();
-			DOB = formatter1.parse(temp);
-			break;
-      }
-      catch (Exception e){
-			System.out.println("Invaild input!");
-			continue;
-		}
-	}while(true);
-
-   long phNo;
-   String tempNo;
-
-   do {
-      System.out.println("Input the customer's phone number");
-      try {
-         temp = in.readLine();
-         phNo = Long.parseLong(temp);
-         break;
-      }
-      catch (Exception e)
-      {
-         System.out.println("Invalid input!");
-         continue;
-      }
-   }while(true);
-
-   String GenderType;
-	do {
-		System.out.println("Input your Gender: Male, Female, Other ");
-		try {
-			GenderType = in.readLine();
-      break;
-      }
-      catch (Exception e){
-			System.out.println(e);
-			continue;
-		}
-	}while(true);
-
-	try {
-		String query = "INSERT INTO CUSTOMER (customerID, fName, lName, Address, phNo, DOB, gender) VALUES (" + customerID + ", \'" + fName + "\',\'" + lName + "\',\'"  + Address + "\',\'" + phNo + "\',\'"  + formatter2.format(DOB) + "\',\'"  + GenderType + "\');";
-		esql.executeUpdate(query);
-	}catch (Exception e) {  
-				System.err.println (e.getMessage());
-}   
+   public static void addCustomer(DBProject esql){    
    };//end addCustomer
 
    public static void addRoom(DBProject esql){
@@ -438,79 +327,11 @@ public class DBProject {
    }//end addRoom
 
    public static void addMaintenanceCompany(DBProject esql){
-      int cmpID = 0;
-      String checkID;
-
-	   checkID = "SELECT cmpID FROM MaintenanceCompany";
-	   try { 
-		   cmpID = esql.executeQuery(checkID);
-	   }
-      catch (Exception e) {
-         System.err.println(e.getMessage());
-      }
-
-      String name;
-         do {
-            System.out.println("Input your Company Name: ");
-            try {
-               name = in.readLine();
-               if (name.length() <= 0 || name.length() > 30) {
-                  throw new RuntimeException("Company Names can't be null or longer than 30 characters");
-                }
-               break;
-            }
-            catch (Exception e){
-               System.out.println(e);
-               continue;
-            }
-         }while(true);
-
-      String check;
-      boolean isCertified;
-         do {
-            System.out.println("Is your Company Certified? (true/false): ");
-            try {
-               check = in.readLine();
-               if (check.length() <= 0) {
-                  throw new RuntimeException("Can't be Null/Empty");
-               }
-               isCertified = Boolean.parseBoolean(check);
-               break;
-            }
-            catch (Exception e){
-               System.out.println(e);
-               continue;
-            }
-         }while(true);
-
-      String Address;
-
-         do {
-            System.out.println("Input your Address: ");
-            try {
-               Address = in.readLine();
-               break;
-            }
-            catch (Exception e){
-               System.out.println(e);
-               continue;
-            }
-         }while(true);
-
-
-      try {
-         String query = "INSERT INTO MaintenanceCompany (cmpID, name, address, isCertified) VALUES (" + cmpID + ", \'" + name + "\',\'" + Address + "\',\'" + isCertified + "\');" ;
-
-         esql.executeUpdate(query);
-      }
-      catch (Exception e) {  
-               System.err.println (e.getMessage());
-      }
    }//end addMaintenanceCompany
 
    public static void addRepair(DBProject esql){
       String temp;
-      int rID = 0;
+      int rID;
       int hotelID = 0;
       int roomNo = 0;
       int mCompany = 0;
@@ -519,13 +340,21 @@ public class DBProject {
       String repairType;
       SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");  
 
-      temp = "SELECT * FROM Repair";
-      try { 
-         rID = esql.executeQuery(temp);
-      }
-      catch (Exception e) {
-         System.err.println(e.getMessage());
-      }
+      do {
+         System.out.println("Input the repair ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair ID cannot be empty.");
+            }
+            rID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
 
       do {
          System.out.println("Input the hotel ID.");
@@ -576,7 +405,7 @@ public class DBProject {
       }while(true);
 
       do {
-         System.out.println("Input the repair date. (MM/dd/yy)");
+         System.out.println("Input the repair date. (MM/DD/YY)");
          try {
             temp = in.readLine();
             if (temp.length() <= 0) {
@@ -633,143 +462,10 @@ public class DBProject {
    }//end addRepair
 
    public static void bookRoom(DBProject esql){
-      // Given hotelID, roomNo and customer Name create a booking in the DB 
-      int bID = 0;
-      String checkbID;
-      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");
-      SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
-
-      checkbID = "SELECT bID FROM Booking";
-      try { 
-         bID = esql.executeQuery(checkbID);
-         bID = bID;
-      }
-      catch (Exception e) {
-         System.err.println(e.getMessage());
-      }
-
-      int customer;
-      String checkC;
-
-      do {
-            System.out.println("Input your Customer ID Number: ");
-            try {
-               checkC = in.readLine();
-               customer = Integer.parseInt(checkC);
-               if (checkC.length() <= 0) {
-                  throw new RuntimeException("Customer ID can't be empty!");
-               }
-               break;
-            }catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-      int hotelID;
-      String checkhID;
-
-      do {
-            System.out.println("Input your Hotel ID Number: ");
-            try {
-               checkhID = in.readLine();
-               hotelID = Integer.parseInt(checkhID);
-               if (checkhID.length() <= 0) {
-                  throw new RuntimeException("Hotel ID can't be empty!");
-               }
-               break;
-            }catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-      int roomNo;
-      String checkR;
-
-      do {
-            System.out.println("Input your Room Number: ");
-            try {
-               checkR = in.readLine();
-               roomNo = Integer.parseInt(checkR);
-               if (checkR.length() <= 0) {
-                  throw new RuntimeException("Room Number can't be empty!");
-               }
-               break;
-            }catch (Exception e){
-               System.out.println("Invaild input!");
-               continue;
-            }
-      }while(true);
-
-
-
-      Date bookingDate;
-      String tempb;
-
-      do {
-            System.out.println("Input your booking date: ");
-            try {
-               tempb = in.readLine();
-               bookingDate = formatter1.parse(tempb);
-               break;
-
-            }catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-      int noOfPeople;
-      String checkN;
-
-      do {
-            System.out.println("Input the number of people: ");
-            try {
-               checkN = in.readLine();
-               noOfPeople = Integer.parseInt(checkN);
-               break;
-            }catch (Exception e){
-               System.out.println("Invaild input!");
-               continue;
-            }
-      }while(true);
-
-
-      float price;
-      String checkP;
-
-      do {
-            System.out.println("Input your Price: $ ");
-            try {
-               checkP = in.readLine();
-               price = Float.parseFloat(checkP);
-               if (checkP.length() <= 0) {
-                  throw new RuntimeException("Price can't be empty!");
-               }
-               if (price > 9999.99)
-               {
-                  throw new RuntimeException("Price is too high!");
-               }
-               if (price < 0)
-               {
-                  throw new RuntimeException("Invalid price!");
-               }
-               break;
-            }catch (Exception e){
-               System.out.println("Invaild input!");
-               continue;
-            }
-      }while(true);
-
-
-      try {
-            String query = "INSERT INTO Booking (bID, customer, hotelID, roomNo, bookingDate, noOfPeople, price) VALUES (" + bID + ", \'" + customer + "\',\'" + hotelID + "\',\'" + roomNo + "\',\'" + formatter2.format(bookingDate) + "\',\'" + noOfPeople + "\',\'" + price + "\');" ;
-
-            esql.executeUpdate(query);
-      }catch (Exception e) {
-            System.err.println (e.getMessage());
-      }
+	  // Given hotelID, roomNo and customer Name create a booking in the DB 
+      // Your code goes here.
+      // ...
+      // ...
    }//end bookRoom
 
    public static void assignHouseCleaningToRoom(DBProject esql){
@@ -849,94 +545,9 @@ public class DBProject {
    
    public static void repairRequest(DBProject esql){
 	  // Given a hotelID, Staff SSN, roomNo, repairID , date create a repair request in the DB
-      int reqID = 0;
-      String checkreqID;
-
-      checkreqID = "SELECT reqID FROM Request";
-      try { 
-         reqID = esql.executeQuery(checkreqID);
-      }
-      catch (Exception e) {
-         System.err.println(e.getMessage());
-      }
-
-
-      int managerID;
-      String checkm;
-
-      do {
-            System.out.println("Input your Manager ID Number: ");
-            try {
-               checkm = in.readLine();
-               managerID = Integer.parseInt(checkm);
-               if (checkm.length() <= 0) {
-                  throw new RuntimeException("Manager ID can't be empty!");
-               }
-               break;
-            }
-            catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-      int repairID;
-      String checkR;
-
-      do {
-            System.out.println("Input your Repair ID Number: ");
-            try {
-               checkR = in.readLine();
-               repairID = Integer.parseInt(checkR);
-               if (checkR.length() <= 0) {
-                  throw new RuntimeException("Repair ID can't be empty!");
-               }
-               break;
-            }catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-
-
-      Date requestDate;
-      String tempreq;
-
-
-      do {
-            System.out.println("Input your Request date: ");
-            try {
-               tempreq = in.readLine();
-               requestDate = new SimpleDateFormat("MM/dd/yy").parse(tempreq);
-               break;
-
-            }catch (Exception e){
-               System.out.println("Invalid input!");
-               continue;
-            }
-      }while(true);
-
-     
-      String description;
-
-      do {
-            System.out.println("Input Repair Description: ");
-            try {
-               description = in.readLine();
-               break;
-            }catch (Exception e){
-               System.out.println("Invaild input!");
-               continue;
-            }
-      }while(true);
-
-      try {
-            String query = "INSERT INTO Request (reqID, managerID, repairID, requestDate, description) VALUES (" + reqID + ", \'" + managerID + "\',\'" + repairID + "\',\'" + requestDate + "\',\'" + description + "\');" ;
-            esql.executeUpdate(query);
-      }catch (Exception e) {
-            System.err.println (e.getMessage());
-      }
+      // Your code goes here.
+      // ...
+      // ...
    }//end repairRequest
    
    public static void numberOfAvailableRooms(DBProject esql){ //Assuming date doesn't matter.
@@ -1035,7 +646,7 @@ public class DBProject {
          try {
             temp = in.readLine();
             if (temp.length() <= 0) {
-               throw new RuntimeException("Booking date cannot be empty.");
+               throw new RuntimeException("Repair date cannot be empty.");
             }
             bookingDate = formatter1.parse(temp);
             break;
