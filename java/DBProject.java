@@ -822,6 +822,31 @@ break;
 	  // List Top K Maintenance Company Names based on total repair count (descending order)
       // Your code goes here.
       // ...
+int k;
+String checkK;
+        do {
+            System.out.println("Input the value of K: ");
+            try {
+                checkK = in.readLine();
+                k = Integer.parseInt(checkK);
+                if (checkK.length() <= 0) {
+                    throw new RuntimeException("K can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+       // try {
+         //   String query = "COUNT * FROM Repairs Where hotelID = hotelID AND roomNo = roomNo VALUES (" + hotelID + ", \'" + roomNo + "\');" ;
+
+           // esql.executeQuery(query);
+        //}catch (Exception e) {
+          //  System.err.println (e.getMessage());
+//        } 
       // ...
    }//end topKMaintenanceCompany
    
