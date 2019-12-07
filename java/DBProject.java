@@ -531,7 +531,7 @@ public class DBProject {
       catch (Exception e) {
          System.err.println(e.getMessage());
       }
-      
+      // Assume asgID starts at 0
       String query = "INSERT INTO Assigned (asgID, staffID, hotelID, roomNo) Values (" + asgID + ", "
          + staffID + ", " + hotelID + ", " + roomNo + ");";
 
@@ -672,9 +672,77 @@ public class DBProject {
    
    public static void topKHighestRoomPriceForADateRange(DBProject esql){
 	  // List Top K Rooms with the highest price for a given date range
-      // Your code goes here.
-      // ...
-      // ...
+      String temp;
+      Date start;
+      Date end;
+      int k = 0;
+      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");
+      SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
+
+      do {
+         System.out.println("Input the start date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            start = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the end date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            if (start.after(formatter1.parse(temp))) {
+               throw new RuntimeException("End date cannot be before start date.");
+            }
+            end = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the amount of results you want to see");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Amount of results cannot be empty.");
+            }
+            if (Integer.parseInt(temp) <= 0) {
+               throw new RuntimeException("Amount of results cannot be 0 or less than 0");
+            }
+            k = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT price, roomNo, bookingDate FROM booking WHERE bookingDate >= \'" + formatter2.format(start) + 
+      "\' AND bookingDate <= \'" + formatter2.format(end) + "\' order by price desc limit " + k + ";";
+
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+
    }//end topKHighestRoomPriceForADateRange
    
    public static void topKHighestPriceBookingsForACustomer(DBProject esql){
