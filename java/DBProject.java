@@ -257,10 +257,20 @@ public class DBProject {
    
    public static void addCustomer(DBProject esql){
 	
- int customerID;
+ int customerID = 0;
 String checkID;
 
-	do {
+	checkID = "SELECT customerID FROM Customer";
+	try { 
+		customerID = esql.executeQuery(checkID);
+		//reqID = reqID + 1;
+	}
+	catch (Exception e) {
+		System.err.println(e.getMessage());
+}
+
+
+	/* do {
 		System.out.println("Input your Customer ID Number: ");
 		try {
 			checkID = in.readLine();
@@ -275,7 +285,7 @@ break;
 		}
 	}while(true);
 
-
+*/
 
   String fName;
 	do {
@@ -397,10 +407,20 @@ break;
    public static void addMaintenanceCompany(DBProject esql){
       // Given maintenance Company details add the maintenance company in the DB
       // ...
-int cmpID;
+int cmpID = 0;
 String checkID;
 
-	do {
+	checkID = "SELECT cmpID FROM MaintenanceCompany";
+	try { 
+		cmpID = esql.executeQuery(checkID);
+		//reqID = reqID + 1;
+	}
+	catch (Exception e) {
+		System.err.println(e.getMessage());
+}
+
+
+/*	do {
 		System.out.println("Input your Company ID Number: ");
 		try {
 			checkID = in.readLine();
@@ -414,7 +434,7 @@ break;
 			continue;
 		}
 	}while(true);
-
+*/
 
 
   String name;
@@ -656,7 +676,7 @@ break;
 	checkreqID = "SELECT reqID FROM Request";
 	try { 
 		reqID = esql.executeQuery(checkreqID);
-		reqID = reqID + 1;
+		//reqID = reqID + 1;
 	}
 	catch (Exception e) {
 		System.err.println(e.getMessage());
