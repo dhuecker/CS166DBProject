@@ -734,7 +734,7 @@ public class DBProject {
       }while(true);
 
       String query = "SELECT price, roomNo, bookingDate FROM booking WHERE bookingDate >= \'" + formatter2.format(start) + 
-      "\' AND bookingDate <= \'" + formatter2.format(end) + "\' order by price desc limit " + k + ";";
+      "\' AND bookingDate <= \'" + formatter2.format(end) + "\' ORDER BY price DESC LIMIT " + k + ";";
 
       try {
          esql.executeQuery(query);
@@ -747,9 +747,77 @@ public class DBProject {
    
    public static void topKHighestPriceBookingsForACustomer(DBProject esql){
 	  // Given a customer Name, List Top K highest booking price for a customer 
-      // Your code goes here.
-      // ...
-      // ...
+      String temp;
+      String fName;
+      String lName;
+      int k = 0;
+
+      do {
+         System.out.println("Input the customer's first name.");
+         try{
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("First name cannot be blank");
+            }
+            if (temp.length() > 30) {
+               throw new RuntimeException("First name must be less than 10 characters.");
+            }
+            fName = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the customer's last name.");
+         try{
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Last name cannot be blank");
+            }
+            if (temp.length() > 30) {
+               throw new RuntimeException("Last name must be less than 10 characters.");
+            }
+            lName = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the amount of results you want to see");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Amount of results cannot be empty.");
+            }
+            if (Integer.parseInt(temp) <= 0) {
+               throw new RuntimeException("Amount of results cannot be 0 or less than 0");
+            }
+            k = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT b.price FROM Booking b INNER JOIN Customer c ON c.customerID = b.customer WHERE c.fname = \'"
+         + fName + "\' AND c.lname = \'" + lName +  "\' ORDER BY b.price DESC LIMIT " + k + ";";
+
+         try {
+            esql.executeQuery(query);
+         }
+         catch (Exception e) {
+            System.err.println(e.getMessage());
+         }
    }//end topKHighestPriceBookingsForACustomer
    
    public static void totalCostForCustomer(DBProject esql){
