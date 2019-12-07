@@ -822,9 +822,114 @@ public class DBProject {
    
    public static void totalCostForCustomer(DBProject esql){
 	  // Given a hotelID, customer Name and date range get the total cost incurred by the customer
-      // Your code goes here.
-      // ...
-      // ...
+      String temp;
+      int hotelID;
+      String fName;
+      String lName;
+      Date start;
+      Date end;
+      SimpleDateFormat formatter1=new SimpleDateFormat("MM/dd/yy");
+      SimpleDateFormat formatter2=new SimpleDateFormat("yyyy-MM-dd");
+
+      do {
+         System.out.println("Input the hotel ID.");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Hotel ID cannot be empty.");
+            }
+            hotelID = Integer.parseInt(temp);
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the customer's first name.");
+         try{
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("First name cannot be blank");
+            }
+            if (temp.length() > 30) {
+               throw new RuntimeException("First name must be less than 10 characters.");
+            }
+            fName = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the customer's last name.");
+         try{
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Last name cannot be blank");
+            }
+            if (temp.length() > 30) {
+               throw new RuntimeException("Last name must be less than 10 characters.");
+            }
+            lName = temp;
+            break;
+         }
+         catch (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the start date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            start = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      do {
+         System.out.println("Input the end date. (MM/DD/YY)");
+         try {
+            temp = in.readLine();
+            if (temp.length() <= 0) {
+               throw new RuntimeException("Repair date cannot be empty.");
+            }
+            if (start.after(formatter1.parse(temp))) {
+               throw new RuntimeException("End date cannot be before start date.");
+            }
+            end = formatter1.parse(temp);
+            break;
+         }
+         catch  (Exception e) {
+            System.out.println("Invalid input!");
+            continue;
+         }
+      }while(true);
+
+      String query = "SELECT sum(b.price) FROM Booking b INNER JOIN Customer c ON c.customerID = b.customer WHERE b.hotelID = " + hotelID  
+      + " AND c.fname = \'" + fName + "\' AND c.lname = \'" + lName +  "\' AND b.bookingDate >= \'" + formatter2.format(start) 
+      + "\' AND b.bookingDate <= \'" + formatter2.format(end) + "\';";
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
+      
    }//end totalCostForCustomer
    
    public static void listRepairsMade(DBProject esql){
