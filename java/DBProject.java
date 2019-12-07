@@ -999,9 +999,49 @@ public class DBProject {
    
    public static void numberOfRepairsForEachRoomPerYear(DBProject esql){
 	  // Given a hotelID, roomNo, get the count of repairs per year
-      // Your code goes here.
-      // ...
-      // ...
+     int hotelID = 0;
+     int roomNo = 0;
+     String checkH;
+             do {
+                 System.out.println("Input the Hotel ID: ");
+                 try {
+                     checkH = in.readLine();
+                     hotelID = Integer.parseInt(checkH);
+                     if (checkH.length() <= 0) {
+                         throw new RuntimeException("Hotel ID can't be empty!");
+                     }
+                     break;
+                 }catch (Exception e){
+                     System.out.println("Invaild input!");
+                     continue;
+                 }
+             }while(true);
+     
+     String checkNo;
+             do {
+                 System.out.println("Input the Room Number: ");
+                 try {
+                     checkNo = in.readLine();
+                     roomNo = Integer.parseInt(checkNo);
+                     if (checkNo.length() <= 0) {
+                         throw new RuntimeException("Room Number can't be empty!");
+                     }
+                     break;
+                 }catch (Exception e){
+                     System.out.println("Invaild input!");
+                     continue;
+                 }
+             }while(true);
+      
+      String query = "SELECT COUNT(*), EXTRACT(year FROM repairDate) FROM Repair WHERE hotelID="
+      + hotelID + " and roomNo=" + roomNo + " GROUP BY EXTRACT(year FROM repairDate);";
+
+      try {
+         esql.executeQuery(query);
+      }
+      catch (Exception e) {
+         System.err.println(e.getMessage());
+      }
    }//end listRepairsMade
 
 }//end DBProject
