@@ -829,6 +829,48 @@ break;
 	  // Given a hotelID, roomNo, get the count of repairs per year
       // Your code goes here.
       // ...
+int hotelID = 0;
+String checkH;
+        do {
+            System.out.println("Input your Hotel ID: ");
+            try {
+                checkH = in.readLine();
+                hotelID = Integer.parseInt(checkH);
+                if (checkH.length() <= 0) {
+                    throw new RuntimeException("Hotel ID can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+int roomNo = 0;
+String checkNo;
+        do {
+            System.out.println("Input your Room Number: ");
+            try {
+                checkNo = in.readLine();
+                roomNo = Integer.parseInt(checkNo);
+                if (checkNo.length() <= 0) {
+                    throw new RuntimeException("Room Number can't be empty!");
+                }
+                break;
+            }catch (Exception e){
+                System.out.println("Invaild input!");
+                continue;
+            }
+        }while(true);
+
+
+       // try {
+         //   String query = "COUNT * FROM Repairs Where hotelID = hotelID AND roomNo = roomNo VALUES (" + hotelID + ", \'" + roomNo + "\');" ;
+
+           // esql.executeQuery(query);
+        //}catch (Exception e) {
+          //  System.err.println (e.getMessage());
+//        } 
       // ...
    }//end listRepairsMade
 
